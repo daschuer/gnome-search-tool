@@ -1550,11 +1550,6 @@ drag_file_cb  (GtkWidget * widget,
 			else {
 				uri_list = g_strconcat (uri_list, "\n", tmp_uri, NULL);
 			}
-			gtk_selection_data_set (selection_data,
-			                        gtk_selection_data_get_target (selection_data),
-			                        8,
-			                        (guchar *) uri_list,
-			                        strlen (uri_list));
 			g_free (tmp_uri);
 		}
 		else {
@@ -1563,6 +1558,15 @@ drag_file_cb  (GtkWidget * widget,
 		g_free (utf8_name);
 		g_free (locale_file);
 	}
+
+	if (uri_list) {
+		gtk_selection_data_set (selection_data,
+		                        gtk_selection_data_get_target (selection_data),
+		                        8,
+		                        (guchar *) uri_list,
+		                        strlen (uri_list));
+	}
+
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
 	g_free (uri_list);
